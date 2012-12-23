@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sign chart</title>
+        <meta charset="UTF-8">
+        <link type="text/css" rel="stylesheet" media="all" href="style.css" />
+        <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.pswidgets.js"></script>
+        <script type="text/javascript">
+            jQuery(function(){
+                jQuery('#radio1').psradio({colors: ['red','orange','yellow','green','blue']});
+            });
+        </script>
+    </head>
+    <body>
+<!--<a href="https://github.com/pesasa/pssignchart"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>-->
+        <div class="content">
+            <h1>Pswidget examples</h1>
+            <p>Here are couple of examples, how to use <code>jquery.pswidget.js</code>.</p>
+<div class="codeexample">
+&lt;form&gt;
+    &lt;input type="radio" name="psradio1" value="red" /&gt;
+    &lt;input type="radio" name="psradio1" value="orange" /&gt;
+    &lt;input type="radio" name="psradio1" value="yellow" /&gt;
+    &lt;input type="radio" name="psradio1" value="green" /&gt;
+    &lt;input type="radio" name="psradio1" value="blue" /&gt;
+&lt;/form&gt;
+&lt;script type="text/javascript"&gt;
+    jQuery('#radio1').psradio();
+&lt;/script&gt;
+</div>
+            <form>
+                <div id="radio1">
+                    <input type="radio" name="psradio1" value="red" id="psradio1red" /><label for="psradio1red">red</label><br />
+                    <input type="radio" name="psradio1" value="orange" id="psradio1orange" /><label for="psradio1orange">orange</label><br />
+                    <input type="radio" name="psradio1" value="yellow" id="psradio1yellow" /><label for="psradio1yellow">yellow</label><br />
+                    <input type="radio" name="psradio1" value="green" id="psradio1green" checked="checked" /><label for="psradio1green">green</label><br />
+                    <input type="radio" name="psradio1" value="blue" id="psradio1blue" /><label for="psradio1blue">blue</label><br />
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
