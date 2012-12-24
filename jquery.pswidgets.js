@@ -16,22 +16,45 @@
      */
     
     $.fn.psradio = function(options) {
-        var settings = $.extend({
-            colors: [],
-            defaultcolor: 'gray',
-            circular: false
-        }, options);
         
-        return this.each(function(){
-            var psradio = new Psradio(this, settings);
-            psradio.init();
-        });
+        if (methods[options]){
+            return methods[options].apply( this, Array.prototype.slice.call( arguments, 1));
+        } else if (typeof(options) === 'object' || !options) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.psradio' );
+            return this;
+        }
+    };
+    
+    var methods = {
+        init: function( options ){
+            var settings = $.extend({
+                colors: [],
+                defaultcolor: 'gray',
+                circular: false
+            }, options);
+
+            return this.each(function(){
+                var psradio = new Psradio(this, settings);
+                psradio.init();
+            });
+        },
+        value: function( options ){
+            if (typeof(options) === 'string'){
+                this.find('input[type="radio"][value="'+options+'"]').click();
+            }
+            return this.find('input[type="radio"]:checked').val();
+        }
     };
     
     var Psradio = function(place, settings){
         this.inited = false;
         this.place = $(place);
         this.settings = settings;
+        if (this.settings.values && this.settings.values.length > 0){
+            this.createRadios(this.settings.values, this.settings.labels)
+        }
         this.radios = this.place.find('input[type="radio"]');
         this.labels = [];
         this.colors = [];
@@ -46,6 +69,19 @@
             this.colors[i] = (this.availColors.indexOf(this.settings.colors[i]) > -1 ? this.settings.colors[i] : this.settings.defaultcolor);
         };
     };
+    
+    Psradio.prototype.createRadios = function(values, labels){
+        var html = '';
+        labels = labels || values;
+        var name = 'psradio';
+        var number = -1;
+        while ($('[name="psradio'+(++number)+'"]').length > 0){};
+        for (var i = 0, length = values.length; i < length; i++){
+            html += '<input type="radio" name="'+(name + number)+'" id="'+(name + number)+'-'+i+'" value="'+values[i]+'" />';
+            html += '<label for="'+(name + number)+'-'+i+'">' + (labels[i] || values[i]) + '</label><br />';
+        }
+        this.place.html(html);
+    }
     
     Psradio.prototype.init = function(){
         var html = '<div class="pswidget-radio">';
@@ -102,9 +138,33 @@
             widget.update();
         });
         
+        this.items.click(function(){
+            widget.selectNext();
+        });
+        
         this.radios.change(function(){
             var index = widget.radios.index($(this));
             widget.selectNum(index);
+        });
+        
+        this.items.bind('DOMMouseScroll', function(e){
+            var event = $.Event('mousewheel');
+            event.wheelData = -120 * e.originalEvent.detail;
+            $(this).trigger(event);
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+        
+        this.items.bind('mousewheel', function(e){
+            if (((e.originalEvent && e.originalEvent.wheelData) || e.wheelData) > 240){
+                widget.selectPrev();
+            } else if (((e.originalEvent && e.originalEvent.wheelData) || e.wheelData) < -240){
+                widget.selectNext();
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         });
     }
     
@@ -151,8 +211,11 @@
     Psradio.prototype.strings = {
         css: [
             '.pswidget-radio {display: inline-block; border: 1px solid #333; border-radius: 0.5em; background-color: #555; overflow: hidden; white-space: nowrap;}',
-            '.pswidget-radio span.pswidget-radio-item {display: inline-block; padding: 0.5em 1em; text-align: center; position: relative; z-index: 1; background-color: white; vertical-align: middle; font-weight: bold; box-shadow: inset 6px 2px 3px rgba(0,0,0,0.5); font-family: sans-serif; color: white; text-shadow: -1px 1px 0px black, 1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black;}',
-            '.pswidget-radio a.pswidget-radio-nextprev {display: inline-block; width: 0.8em; padding: 0.6em 0; margin: 0 -0.4em; position: relative; z-index: 2; border: 1px solid #999; border-radius: 0.4em; text-decoration: none; background-color: gold; vertical-align: middle;}',
+            '.pswidget-radio span.pswidget-radio-item {display: inline-block; padding: 0.5em 1em; text-align: center; position: relative; z-index: 1;',
+                'background-color: white; vertical-align: middle; font-weight: bold; box-shadow: inset 6px 2px 3px rgba(0,0,0,0.5); font-family: sans-serif;',
+                'color: white; text-shadow: -1px 1px 0px black, 1px 1px 0px black, -1px -1px 0px black, 1px -1px 0px black; cursor: pointer;}',
+            '.pswidget-radio a.pswidget-radio-nextprev {display: inline-block; width: 0.8em; padding: 0.6em 0; margin: 0 -0.4em; position: relative; z-index: 2;',
+                'border: 1px solid #999; border-radius: 0.4em; text-decoration: none; background-color: gold; vertical-align: middle;}',
             '.pswidget-radio a.pswidget-radio-nextprev:first-child {margin-left: 0;}',
             '.pswidget-radio a.pswidget-radio-nextprev:last-child {margin-right: 0;}',
             '.pswidget-gradred {color: white!important; background: rgb(207,4,4);',

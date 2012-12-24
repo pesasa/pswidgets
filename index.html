@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html&gt;
 <html>
     <head>
         <title>Sign chart</title>
@@ -10,6 +10,8 @@
         <script type="text/javascript">
             jQuery(function(){
                 jQuery('#radio1').psradio({colors: ['red','orange','yellow','green','blue']});
+                jQuery('#radio2').psradio({values: ['red','green','blue'], labels: ['punainen', 'vihreä', 'sininen'], colors: ['red','green','blue']});
+                jQuery('#radio3').psradio({values: ['red','green','blue'], colors: ['red','green','blue']});
             });
         </script>
     </head>
@@ -18,16 +20,31 @@
         <div class="content">
             <h1>Pswidget examples</h1>
             <p>Here are couple of examples, how to use <code>jquery.pswidget.js</code>.</p>
+            <h2>Existing radio buttons</h2>
+            <p>Applying <dode>psradio</dode> to existing radio buttons with labels</h2>
 <div class="codeexample">
 &lt;form&gt;
-    &lt;input type="radio" name="psradio1" value="red" /&gt;
-    &lt;input type="radio" name="psradio1" value="orange" /&gt;
-    &lt;input type="radio" name="psradio1" value="yellow" /&gt;
-    &lt;input type="radio" name="psradio1" value="green" /&gt;
-    &lt;input type="radio" name="psradio1" value="blue" /&gt;
+    &lt;div id="radio1"&gt;
+        &lt;input type="radio" name="psradio1" value="red" id="psradio1red" /&gt;
+        &lt;label for="psradio1red"&gt;red&lt;/label&gt;&lt;br /&gt;
+        &lt;input type="radio" name="psradio1" value="orange" id="psradio1orange" /&gt;
+        &lt;label for="psradio1orange"&gt;orange&lt;/label&gt;&lt;br /&gt;
+        &lt;input type="radio" name="psradio1" value="yellow" id="psradio1yellow" /&gt;
+        &lt;label for="psradio1yellow"&gt;yellow&lt;/label&gt;&lt;br /&gt;
+        &lt;input type="radio" name="psradio1" value="green" id="psradio1green" checked="checked" /&gt;
+        &lt;label for="psradio1green"&gt;green&lt;/label&gt;&lt;br /&gt;
+        &lt;input type="radio" name="psradio1" value="blue" id="psradio1blue" /&gt;
+        &lt;label for="psradio1blue"&gt;blue&lt;/label&gt;&lt;br /&gt;
+    &lt;/div&gt;
 &lt;/form&gt;
 &lt;script type="text/javascript"&gt;
-    jQuery('#radio1').psradio();
+    jQuery('#radio1').psradio({colors: [
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'blue'
+    ]});
 &lt;/script&gt;
 </div>
             <form>
@@ -37,6 +54,63 @@
                     <input type="radio" name="psradio1" value="yellow" id="psradio1yellow" /><label for="psradio1yellow">yellow</label><br />
                     <input type="radio" name="psradio1" value="green" id="psradio1green" checked="checked" /><label for="psradio1green">green</label><br />
                     <input type="radio" name="psradio1" value="blue" id="psradio1blue" /><label for="psradio1blue">blue</label><br />
+                </div>
+            </form>
+            
+            <h2>Empty div-element</h2>
+            <p>Applying <code>psradio</code> to an empty <code>div</code>-element creates needed radio buttons and labels first.</p>
+<div class="codeexample">
+&lt;form&gt;
+    &lt;div id="radio2"&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+&lt;script type="text/javascript"&gt;
+    jQuery('#radio2').psradio({
+        values: [
+            'red',
+            'green',
+            'blue'
+        ],
+        labels: [
+            'Punainen',
+            'Vihreä',
+            'Sininen'
+        ],
+        colors: [
+            'red',
+            'green',
+            'blue'
+        ]
+    });
+&lt;/script&gt;
+</div>
+            <form>
+                <div id="radio2">
+                </div>
+            </form>
+            <p>Without <code>label</code>-list in options, values are used for labels.</p>
+<div class="codeexample">
+&lt;form&gt;
+    &lt;div id="radio3"&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+&lt;script type="text/javascript"&gt;
+    jQuery('#radio3').psradio({
+        values: [
+            'red',
+            'green',
+            'blue'
+        ],
+        colors: [
+            'red',
+            'green',
+            'blue'
+        ]
+    });
+&lt;/script&gt;
+</div>
+            <form>
+                <div id="radio3">
                 </div>
             </form>
         </div>
